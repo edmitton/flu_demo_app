@@ -52,6 +52,16 @@ class MyHomePage extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
+              Expanded(
+                child: ListView.builder(
+                  itemCount: appState.favorites.length,
+                  itemBuilder: (context, index) {
+                    return ListTile(
+                      title: Text(appState.favorites[index].asLowerCase),
+                    );
+                  }
+                ),
+              ),
               BigCard(pair: pair),
               const SizedBox(height: 20),
               Row(
@@ -76,6 +86,7 @@ class MyHomePage extends StatelessWidget {
                     child: const Text('Next')),
                 ],
               ),
+              const SizedBox(height: 40),
             ],
           ),
         ),
