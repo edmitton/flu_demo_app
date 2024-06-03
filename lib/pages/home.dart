@@ -75,13 +75,18 @@ class BigCard extends StatelessWidget {
       color: theme.colorScheme.primary,
       child: Padding(
         padding: const EdgeInsets.all(20),
-        child: Text(
-          pair.asLowerCase,
-          style: style
-          // style: TextStyle(
-          //   fontSize: 20,
-          //   color: theme.colorScheme.onPrimary,
-          // ),
+
+        // TextウィジェットでsemanticLabelプロパティは使用できなかった
+        child: Semantics(
+          label: "${pair.first} ${pair.second}",
+          child: Text(
+            pair.asLowerCase,
+            style: style,
+            // style: TextStyle(
+            //   fontSize: 20,
+            //   color: theme.colorScheme.onPrimary,
+            // ),
+          ),
         ),
       ),
     );
