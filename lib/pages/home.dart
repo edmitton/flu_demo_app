@@ -18,13 +18,12 @@ class MyHomePage extends StatelessWidget {
     var appState = context.watch<MyAppState>();
     var pair     = appState.current;
     final theme  = Theme.of(context);
-    const String hogefuga = 'A random AWESOME idea:';
 
     return Scaffold(
       appBar: AppBar(
         backgroundColor: theme.colorScheme.background,
         title: Text(
-          'Flutter Mitton App',
+          'Flutter Demo',
           style: TextStyle(color: theme.colorScheme.onBackground)
         ),
       ),
@@ -34,11 +33,8 @@ class MyHomePage extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Text(
-                hogefuga,
-                style: TextStyle(fontSize: 20, color: theme.colorScheme.onBackground)
-              ),
               BigCard(pair: pair),
+              const SizedBox(height: 20),
 
               // MyAppStateのgetNext呼び出し
               ElevatedButton(
