@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:english_words/english_words.dart';
+import 'package:logger/logger.dart';
 
 class MyAppState extends ChangeNotifier{
   var current = WordPair.random();
@@ -27,6 +28,7 @@ class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme  = Theme.of(context);
+    final logger = Logger();
 
     return Scaffold(
       appBar: AppBar(
@@ -36,9 +38,34 @@ class MyHomePage extends StatelessWidget {
           style: TextStyle(color: theme.colorScheme.onBackground)
         ),
       ),
-      body: Container(
-        color: theme.colorScheme.background,
-        child: const GeneratorPage(),
+      body: Row(
+        children: [
+          SafeArea(
+            child: NavigationRail(
+              extended: false,
+              selectedIndex: 0,
+              destinations: const [
+                NavigationRailDestination(
+                  icon: Icon(Icons.home),
+                  label: Text('Home'),
+                ),
+                NavigationRailDestination(
+                  icon: Icon(Icons.favorite),
+                  label: Text('Favorites'),
+                ),
+              ],
+              onDestinationSelected: (value) {
+                logger.d('selected: $value');
+              },
+            ),
+          ),
+          Expanded(
+            child: Container(
+              color: theme.colorScheme.background,
+              child: const GeneratorPage(),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -65,6 +92,7 @@ class GeneratorPage extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
+          // NOTE: いいねリストの表示（暫定対応）
           Expanded(
             child: ListView.builder(
               itemCount: appState.favorites.length,
@@ -117,7 +145,6 @@ class BigCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final style = theme.textTheme.displayMedium!.copyWith(color: theme.colorScheme.onPrimary);
 
     return Card(
       color: theme.colorScheme.primary,
@@ -129,11 +156,7 @@ class BigCard extends StatelessWidget {
           label: "${pair.first} ${pair.second}",
           child: Text(
             pair.asLowerCase,
-            style: style,
-            // style: TextStyle(
-            //   fontSize: 20,
-            //   color: theme.colorScheme.onPrimary,
-            // ),
+            style: theme.textTheme.displayMedium!.copyWith(color: theme.colorScheme.onPrimary),
           ),
         ),
       ),
