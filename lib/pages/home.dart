@@ -22,16 +22,36 @@ class MyAppState extends ChangeNotifier{
     notifyListeners();
   }
 }
-class MyHomePage extends StatelessWidget {
+class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key}) : super(key: key);
+
+  @override
+  State<MyHomePage> createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  var selectedIndex = 0;
 
   @override
   Widget build(BuildContext context) {
     final theme  = Theme.of(context);
     final logger = Logger();
 
+    Widget page;
+    switch (selectedIndex) {
+      case 0:
+        page = const GeneratorPage();
+        break;
+      case 1:
+        page = const Placeholder();
+        break;
+      default:
+        throw UnimplementedError('no widget for $selectedIndex');
+    }
+
     return Scaffold(
       appBar: AppBar(
+        // NOTE: backgroundであれば自動で適応されてそうでなくてもよさそう
         backgroundColor: theme.colorScheme.background,
         title: Text(
           'Flutter Demo',
@@ -43,7 +63,7 @@ class MyHomePage extends StatelessWidget {
           SafeArea(
             child: NavigationRail(
               extended: false,
-              selectedIndex: 0,
+              selectedIndex: selectedIndex,
               destinations: const [
                 NavigationRailDestination(
                   icon: Icon(Icons.home),
@@ -56,13 +76,16 @@ class MyHomePage extends StatelessWidget {
               ],
               onDestinationSelected: (value) {
                 logger.d('selected: $value');
+                setState(() {
+                  selectedIndex = value;
+                });
               },
             ),
           ),
           Expanded(
             child: Container(
               color: theme.colorScheme.background,
-              child: const GeneratorPage(),
+              child: page,
             ),
           ),
         ],
