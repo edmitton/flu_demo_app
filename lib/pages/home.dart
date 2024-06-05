@@ -26,6 +26,29 @@ class MyHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme  = Theme.of(context);
+
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: theme.colorScheme.background,
+        title: Text(
+          'Flutter Demo',
+          style: TextStyle(color: theme.colorScheme.onBackground)
+        ),
+      ),
+      body: Container(
+        color: theme.colorScheme.background,
+        child: const GeneratorPage(),
+      ),
+    );
+  }
+}
+
+class GeneratorPage extends StatelessWidget {
+  const GeneratorPage({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
     var appState = context.watch<MyAppState>();
     var pair     = appState.current;
     final theme  = Theme.of(context);
@@ -38,58 +61,46 @@ class MyHomePage extends StatelessWidget {
       icon = Icons.favorite_border;
     }
 
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: theme.colorScheme.background,
-        title: Text(
-          'Flutter Demo',
-          style: TextStyle(color: theme.colorScheme.onBackground)
-        ),
-      ),
-      body: Container(
-        color: theme.colorScheme.background,
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Expanded(
-                child: ListView.builder(
-                  itemCount: appState.favorites.length,
-                  itemBuilder: (context, index) {
-                    return ListTile(
-                      title: Text(appState.favorites[index].asLowerCase),
-                    );
-                  }
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Expanded(
+            child: ListView.builder(
+              itemCount: appState.favorites.length,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  title: Text(appState.favorites[index].asLowerCase),
+                );
+              }
+            ),
+          ),
+          BigCard(pair: pair),
+          const SizedBox(height: 20),
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ElevatedButton.icon(
+                onPressed: () {
+                  appState.toggleFavorite();
+                },
+                icon: Icon(icon),
+                label: const Text('Like'),
+              ),
+              const SizedBox(width: 10),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: theme.colorScheme.secondary,
+                  foregroundColor: theme.colorScheme.onSecondary,
                 ),
-              ),
-              BigCard(pair: pair),
-              const SizedBox(height: 20),
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  ElevatedButton.icon(
-                    onPressed: () {
-                      appState.toggleFavorite();
-                    },
-                    icon: Icon(icon),
-                    label: const Text('Like'),
-                  ),
-                  const SizedBox(width: 10),
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: theme.colorScheme.secondary,
-                      foregroundColor: theme.colorScheme.onSecondary,
-                    ),
-                    onPressed: () {
-                      appState.getNext();
-                    },
-                    child: const Text('Next')),
-                ],
-              ),
-              const SizedBox(height: 40),
+                onPressed: () {
+                  appState.getNext();
+                },
+                child: const Text('Next')),
             ],
           ),
-        ),
+          const SizedBox(height: 40),
+        ],
       ),
     );
   }
