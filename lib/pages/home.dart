@@ -43,7 +43,7 @@ class _MyHomePageState extends State<MyHomePage> {
         page = const GeneratorPage();
         break;
       case 1:
-        page = const Placeholder();
+        page = const FavoritePage();
         break;
       default:
         throw UnimplementedError('no widget for $selectedIndex');
@@ -119,17 +119,6 @@ class GeneratorPage extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          // NOTE: いいねリストの表示（暫定対応）
-          Expanded(
-            child: ListView.builder(
-              itemCount: appState.favorites.length,
-              itemBuilder: (context, index) {
-                return ListTile(
-                  title: Text(appState.favorites[index].asLowerCase),
-                );
-              }
-            ),
-          ),
           BigCard(pair: pair),
           const SizedBox(height: 20),
           Row(
@@ -155,6 +144,39 @@ class GeneratorPage extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 40),
+        ],
+      ),
+    );
+  }
+}
+
+class FavoritePage extends StatelessWidget {
+  const FavoritePage({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    var appState = context.watch<MyAppState>();
+
+    if (appState.favorites.isEmpty) {
+      return const Center(
+        child: Text('No favorites yet.'),
+      );
+    }
+
+    return Expanded(
+      child: Column(
+        children: [
+          Expanded(
+            child: ListView.builder(
+              itemCount: appState.favorites.length,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  leading: const Icon(Icons.favorite),
+                  title: Text(appState.favorites[index].asLowerCase),
+                );
+              }
+            ),
+          ),
         ],
       ),
     );
