@@ -182,8 +182,7 @@ class FavoritePage extends StatelessWidget {
       );
     }
 
-    return Expanded(
-      child: Column(
+    return Column(
         children: [
           Expanded(
             child: ListView.builder(
@@ -197,7 +196,6 @@ class FavoritePage extends StatelessWidget {
             ),
           ),
         ],
-      ),
     );
   }
 }
