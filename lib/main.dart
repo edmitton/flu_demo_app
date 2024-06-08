@@ -14,6 +14,7 @@ class MyApp extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (context) => MyAppState(),
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
         theme: ThemeData(
           useMaterial3: true,
@@ -34,7 +35,6 @@ class MyApp extends StatelessWidget {
           // ),
         ),
         darkTheme: ThemeData.dark(useMaterial3: true),
-
         themeMode: ThemeMode.system,
         home: const MyHomePage(),
       ),
