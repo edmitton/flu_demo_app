@@ -60,30 +60,31 @@ class _MyHomePageState extends State<MyHomePage> {
               style: TextStyle(color: theme.colorScheme.onBackground)
             ),
           ),
-          body: Row(
+          body: Column(
             children: [
-              SafeArea(
-                child: NavigationRail(
-                  extended: constraints.maxWidth > 600,
-                  selectedIndex: selectedIndex,
-                  destinations: const [
-                    NavigationRailDestination(
-                      icon: Icon(Icons.home),
-                      label: Text('Home'),
-                    ),
-                    NavigationRailDestination(
-                      icon: Icon(Icons.favorite),
-                      label: Text('Favorites'),
-                    ),
-                  ],
-                  onDestinationSelected: (value) {
-                    logger.d('selected: $value');
-                    setState(() {
-                      selectedIndex = value;
-                    });
-                  },
-                ),
-              ),
+              // SafeArea(
+              //   child: NavigationRail(
+              //     // extended: constraints.maxWidth > 600,
+              //     extended: false,
+              //     selectedIndex: selectedIndex,
+              //     destinations: const [
+              //       NavigationRailDestination(
+              //         icon: Icon(Icons.home),
+              //         label: Text('Home'),
+              //       ),
+              //       NavigationRailDestination(
+              //         icon: Icon(Icons.favorite),
+              //         label: Text('Favorites'),
+              //       ),
+              //     ],
+              //     onDestinationSelected: (value) {
+              //       logger.d('selected: $value');
+              //       setState(() {
+              //         selectedIndex = value;
+              //       });
+              //     },
+              //   ),
+              // ),
               Expanded(
                 child: Container(
                   color: theme.colorScheme.background,
@@ -92,6 +93,24 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ],
           ),
+          bottomNavigationBar: BottomNavigationBar (
+            items: const <BottomNavigationBarItem> [
+              BottomNavigationBarItem(
+                icon: Icon(Icons.home),
+                label: 'Home',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.favorite),
+                label: 'Favorites',
+              ),
+            ],
+            currentIndex: selectedIndex,
+            onTap: (value) {
+              logger.d('selected: $value');
+              setState(() {
+                selectedIndex = value;
+              });
+          }),
         );
       }
     );
