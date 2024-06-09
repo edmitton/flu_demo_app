@@ -31,6 +31,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   var selectedIndex = 0;
+  final PageController _pageController = PageController();
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +41,13 @@ class _MyHomePageState extends State<MyHomePage> {
     Widget page;
     switch (selectedIndex) {
       case 0:
-        page = const GeneratorPage();
+        page = PageView(
+          controller: _pageController,
+          children: const [
+            GeneratorPage(),
+            SwipePage(),
+          ],
+        );
         break;
       case 1:
         page = const FavoritePage();
@@ -49,70 +56,34 @@ class _MyHomePageState extends State<MyHomePage> {
         throw UnimplementedError('no widget for $selectedIndex');
     }
 
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        return Scaffold(
-          appBar: AppBar(
-            // NOTE: backgroundであれば自動で適応されてそうでなくてもよさそう
-            backgroundColor: theme.colorScheme.background,
-            title: Text(
-              'Flutter Demo',
-              style: TextStyle(color: theme.colorScheme.onBackground)
-            ),
+    return Scaffold(
+      appBar: AppBar(
+        // NOTE: backgroundであれば自動で適応されてそうでなくてもよさそう
+        backgroundColor: theme.colorScheme.background,
+        title: Text(
+          'Flutter Demo',
+          style: TextStyle(color: theme.colorScheme.onBackground)
+        ),
+      ),
+      body: page,
+      bottomNavigationBar: BottomNavigationBar (
+        items: const <BottomNavigationBarItem> [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
           ),
-          body: Column(
-            children: [
-              // SafeArea(
-              //   child: NavigationRail(
-              //     // extended: constraints.maxWidth > 600,
-              //     extended: false,
-              //     selectedIndex: selectedIndex,
-              //     destinations: const [
-              //       NavigationRailDestination(
-              //         icon: Icon(Icons.home),
-              //         label: Text('Home'),
-              //       ),
-              //       NavigationRailDestination(
-              //         icon: Icon(Icons.favorite),
-              //         label: Text('Favorites'),
-              //       ),
-              //     ],
-              //     onDestinationSelected: (value) {
-              //       logger.d('selected: $value');
-              //       setState(() {
-              //         selectedIndex = value;
-              //       });
-              //     },
-              //   ),
-              // ),
-              Expanded(
-                child: Container(
-                  color: theme.colorScheme.background,
-                  child: page,
-                ),
-              ),
-            ],
+          BottomNavigationBarItem(
+            icon: Icon(Icons.favorite),
+            label: 'Favorites',
           ),
-          bottomNavigationBar: BottomNavigationBar (
-            items: const <BottomNavigationBarItem> [
-              BottomNavigationBarItem(
-                icon: Icon(Icons.home),
-                label: 'Home',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.favorite),
-                label: 'Favorites',
-              ),
-            ],
-            currentIndex: selectedIndex,
-            onTap: (value) {
-              logger.d('selected: $value');
-              setState(() {
-                selectedIndex = value;
-              });
-          }),
-        );
-      }
+        ],
+        currentIndex: selectedIndex,
+        onTap: (value) {
+          logger.d('selected: $value');
+          setState(() {
+            selectedIndex = value;
+          });
+      }),
     );
   }
 }
@@ -134,30 +105,7 @@ class GeneratorPage extends StatelessWidget {
       icon = Icons.favorite_border;
     }
 
-    return GestureDetector(
-      onHorizontalDragUpdate: (details) {
-        if (details.primaryDelta! > -10) {
-          Navigator.of(context).push(
-            PageRouteBuilder(
-              pageBuilder: (context, animation, secondaryAnimation) => const SwipePage(),
-              transitionsBuilder: (context, animation, secondaryAnimation, child) {
-                const begin = Offset(1.0, 0.0);
-                const end   = Offset.zero;
-                const curve = Curves.ease;
-
-                var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-                var offsetAnimation = animation.drive(tween);
-
-                return SlideTransition(
-                  position: offsetAnimation,
-                  child: child
-                );
-              },
-            ),
-          );
-        }
-      },
-      child: Center(
+    return Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
@@ -188,8 +136,7 @@ class GeneratorPage extends StatelessWidget {
             const SizedBox(height: 40),
           ],
         ),
-      ),
-    );
+      );
   }
 }
 
@@ -198,11 +145,8 @@ class SwipePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Swipe Page')),
-      body: const Center(
-        child: Placeholder(),
-      ),
+    return const Center(
+      child: Placeholder(),
     );
   }
 }
