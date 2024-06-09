@@ -32,6 +32,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   var selectedIndex = 0;
   final PageController _pageController = PageController();
+  bool showBottomNavBar = true;
 
   @override
   Widget build(BuildContext context) {
@@ -43,6 +44,11 @@ class _MyHomePageState extends State<MyHomePage> {
       case 0:
         page = PageView(
           controller: _pageController,
+          onPageChanged: (index) {
+            setState(() {
+              showBottomNavBar = index == 0;
+            });
+          },
           children: const [
             GeneratorPage(),
             SwipePage(),
@@ -51,8 +57,10 @@ class _MyHomePageState extends State<MyHomePage> {
         break;
       case 1:
         page = const FavoritePage();
+        showBottomNavBar = true;
         break;
       default:
+        showBottomNavBar = true;
         throw UnimplementedError('no widget for $selectedIndex');
     }
 
@@ -66,24 +74,26 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       body: page,
-      bottomNavigationBar: BottomNavigationBar (
-        items: const <BottomNavigationBarItem> [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.favorite),
-            label: 'Favorites',
-          ),
-        ],
-        currentIndex: selectedIndex,
-        onTap: (value) {
-          logger.d('selected: $value');
-          setState(() {
-            selectedIndex = value;
-          });
-      }),
+      bottomNavigationBar: showBottomNavBar ?
+        BottomNavigationBar (
+          items: const <BottomNavigationBarItem> [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              label: 'Home',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.favorite),
+              label: 'Favorites',
+            ),
+          ],
+          currentIndex: selectedIndex,
+          onTap: (value) {
+            logger.d('selected: $value');
+            setState(() {
+              selectedIndex = value;
+            });
+        })
+        : null,
     );
   }
 }
