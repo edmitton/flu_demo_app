@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flu_demo_app/pages/home.dart';
 import 'package:provider/provider.dart';
+
+//pages
+import '/pages/home.dart';
 
 void main() {
   runApp(const MyApp());
