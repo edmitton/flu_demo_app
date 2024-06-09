@@ -16,19 +16,19 @@ class FavoritePage extends StatelessWidget {
     }
 
     return Column(
-        children: [
-          Expanded(
-            child: ListView.builder(
-              itemCount: appState.favorites.length,
-              itemBuilder: (context, index) {
-                return ListTile(
-                  leading: const Icon(Icons.favorite),
-                  title: Text(appState.favorites[index].asLowerCase),
-                );
-              }
-            ),
+      children: [
+        Expanded(
+          child: ListView.builder(
+            itemCount: appState.favorites.length,
+            itemBuilder: (context, index) {
+              return ListTile(
+                leading: const Icon(Icons.favorite),
+                title: Text(appState.favorites[index].asLowerCase),
+              );
+            }
           ),
-        ],
+        ),
+      ],
     );
   }
 }
