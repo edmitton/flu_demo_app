@@ -5,8 +5,11 @@ class SwipePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: Placeholder(),
+    return Scaffold(
+      appBar: AppBar(title: const Text('Swipe Page')),
+      body: const Center(
+        child: Placeholder(),
+      ),
     );
   }
 }
