@@ -46,6 +46,12 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       body: PageView(
         controller: _pageController,
+        physics: selectedIndex == 1 ? const NeverScrollableScrollPhysics() : null,
+        onPageChanged: (index) {
+          setState(() {
+            showBottomNavBar = index == 0;
+          });
+        },
         children: [
           Scaffold(
             appBar: AppBar(
