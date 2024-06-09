@@ -43,61 +43,54 @@ class _MyHomePageState extends State<MyHomePage> {
     final theme  = Theme.of(context);
     final logger = Logger();
 
-    Widget page;
+    return Scaffold(
+      body: PageView(
+        controller: _pageController,
+        children: [
+          Scaffold(
+            appBar: AppBar(
+              // NOTE: backgroundであれば自動で適応されてそうでなくてもよさそう
+              backgroundColor: theme.colorScheme.background,
+              title: Text(
+                'Flutter Demo',
+                style: TextStyle(color: theme.colorScheme.onBackground)
+              ),
+            ),
+            body: _buildBody(),
+            bottomNavigationBar: BottomNavigationBar (
+              items: const <BottomNavigationBarItem> [
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.home),
+                  label: 'Home',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.favorite),
+                  label: 'Favorites',
+                ),
+              ],
+              currentIndex: selectedIndex,
+              onTap: (value) {
+                logger.d('selected: $value');
+                setState(() {
+                  selectedIndex = value;
+                });
+              },
+            ),
+          ),
+          const SwipePage(),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildBody() {
     switch (selectedIndex) {
       case 0:
-        page = PageView(
-          controller: _pageController,
-          onPageChanged: (index) {
-            setState(() {
-              showBottomNavBar = index == 0;
-            });
-          },
-          children: const [
-            GeneratorPage(),
-            SwipePage(),
-          ],
-        );
-        break;
+        return const GeneratorPage();
       case 1:
-        page = const FavoritePage();
-        showBottomNavBar = true;
-        break;
+        return const FavoritePage();
       default:
-        showBottomNavBar = true;
         throw UnimplementedError('no widget for $selectedIndex');
     }
-
-    return Scaffold(
-      appBar: AppBar(
-        // NOTE: backgroundであれば自動で適応されてそうでなくてもよさそう
-        backgroundColor: theme.colorScheme.background,
-        title: Text(
-          'Flutter Demo',
-          style: TextStyle(color: theme.colorScheme.onBackground)
-        ),
-      ),
-      body: page,
-      bottomNavigationBar: showBottomNavBar ?
-        BottomNavigationBar (
-          items: const <BottomNavigationBarItem> [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: 'Home',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.favorite),
-              label: 'Favorites',
-            ),
-          ],
-          currentIndex: selectedIndex,
-          onTap: (value) {
-            logger.d('selected: $value');
-            setState(() {
-              selectedIndex = value;
-            });
-        })
-        : null,
-    );
   }
 }
