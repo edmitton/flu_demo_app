@@ -1,12 +1,25 @@
 import 'package:flutter/material.dart';
 
 class SwipePage extends StatelessWidget {
-  const SwipePage({Key? key}) : super(key: key);
+  final PageController pageController;
+  const SwipePage({Key? key, required this.pageController}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Swipe Page')),
+      appBar: AppBar(
+        title: const Text('Swipe Page'),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios),
+          onPressed: () {
+            pageController.animateToPage(
+              0,
+              duration: const Duration(milliseconds: 500),
+              curve: Curves.easeInOut
+            );
+          },
+        ),
+      ),
       body: const Center(
         child: Placeholder(),
       ),
