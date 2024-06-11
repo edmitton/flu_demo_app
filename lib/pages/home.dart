@@ -36,13 +36,11 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   var selectedIndex = 0;
   final PageController _pageController = PageController();
+  final logger = Logger();
   bool showBottomNavBar = true;
 
   @override
   Widget build(BuildContext context) {
-    final theme  = Theme.of(context);
-    final logger = Logger();
-
     return Scaffold(
       body: PageView(
         controller: _pageController,
@@ -54,14 +52,6 @@ class _MyHomePageState extends State<MyHomePage> {
         },
         children: [
           Scaffold(
-            appBar: AppBar(
-              // NOTE: backgroundであれば自動で適応されてそうでなくてもよさそう
-              // backgroundColor: theme.colorScheme.background,
-              title: const Text(
-                'Flutter Demo',
-                // style: TextStyle(color: theme.colorScheme.onBackground)
-              ),
-            ),
             body: _buildBody(),
             bottomNavigationBar: BottomNavigationBar (
               items: const <BottomNavigationBarItem> [
@@ -83,7 +73,7 @@ class _MyHomePageState extends State<MyHomePage> {
               },
             ),
           ),
-          const SwipePage(),
+          SwipePage(pageController: _pageController),
         ],
       ),
     );
@@ -92,7 +82,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget _buildBody() {
     switch (selectedIndex) {
       case 0:
-        return const GeneratorPage();
+        return GeneratorPage(pageController: _pageController);
       case 1:
         return const FavoritePage();
       default:
