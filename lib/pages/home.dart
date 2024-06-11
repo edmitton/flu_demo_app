@@ -56,10 +56,10 @@ class _MyHomePageState extends State<MyHomePage> {
           Scaffold(
             appBar: AppBar(
               // NOTE: backgroundであれば自動で適応されてそうでなくてもよさそう
-              backgroundColor: theme.colorScheme.background,
-              title: Text(
+              // backgroundColor: theme.colorScheme.background,
+              title: const Text(
                 'Flutter Demo',
-                style: TextStyle(color: theme.colorScheme.onBackground)
+                // style: TextStyle(color: theme.colorScheme.onBackground)
               ),
             ),
             body: _buildBody(),

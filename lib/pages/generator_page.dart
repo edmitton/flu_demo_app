@@ -10,7 +10,7 @@ class GeneratorPage extends StatelessWidget {
   Widget build(BuildContext context) {
     var appState = context.watch<MyAppState>();
     var pair     = appState.current;
-    final theme  = Theme.of(context);
+    // final theme  = Theme.of(context);
 
     // NOTE: IconData型の変数iconを宣言し、Iconsクラスのiconを代入
     IconData icon;
@@ -30,6 +30,10 @@ class GeneratorPage extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               ElevatedButton.icon(
+                style: ElevatedButton.styleFrom(
+                  // backgroundColor: theme.colorScheme.background,
+                  // foregroundColor: theme.colorScheme.onBackground,
+                ),
                 onPressed: () {
                   appState.toggleFavorite();
                 },
@@ -39,8 +43,8 @@ class GeneratorPage extends StatelessWidget {
               const SizedBox(width: 10),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: theme.colorScheme.secondary,
-                  foregroundColor: theme.colorScheme.onSecondary,
+                  // backgroundColor: theme.colorScheme.secondary,
+                  // foregroundColor: theme.colorScheme.onSecondary,
                 ),
                 onPressed: () {
                   appState.getNext();
@@ -68,7 +72,7 @@ class BigCard extends StatelessWidget {
     final theme = Theme.of(context);
 
     return Card(
-      color: theme.colorScheme.primary,
+      // color: theme.colorScheme.primary,
       child: Padding(
         padding: const EdgeInsets.all(20),
 
@@ -77,7 +81,8 @@ class BigCard extends StatelessWidget {
           label: "${pair.first} ${pair.second}",
           child: Text(
             pair.asLowerCase,
-            style: theme.textTheme.displayMedium!.copyWith(color: theme.colorScheme.onPrimary),
+            style: theme.textTheme.displayMedium!
+            // .copyWith(color: theme.colorScheme.onPrimary),
           ),
         ),
       ),
