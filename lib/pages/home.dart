@@ -8,14 +8,14 @@ import 'swipe_page.dart';
 import 'favorite_page.dart';
 
 class MyAppState extends ChangeNotifier{
-  var current = WordPair.random();
+  var current   = WordPair.random();
+  var favorites = <WordPair>[];
+  bool isLoggedIn = false;
 
   void getNext() {
     current = WordPair.random();
     notifyListeners();
   }
-
-  var favorites = <WordPair>[];
 
   void toggleFavorite() {
     if (favorites.contains(current)) {
@@ -23,6 +23,16 @@ class MyAppState extends ChangeNotifier{
     } else {
       favorites.add(current);
     }
+    notifyListeners();
+  }
+
+  void login() {
+    isLoggedIn = true;
+    notifyListeners();
+  }
+
+  void logout() {
+    isLoggedIn = false;
     notifyListeners();
   }
 }
