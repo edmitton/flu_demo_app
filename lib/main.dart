@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-//pages
-import '/pages/home.dart';
+// State
+import 'provider/app_state.dart';
+
+// Pages
+import 'pages/home.dart';
 import 'pages/login_page.dart';
 
 void main() {

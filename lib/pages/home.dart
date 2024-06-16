@@ -1,41 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:english_words/english_words.dart';
 import 'package:logger/logger.dart';
 
-// pages
+// Pages
 import 'generator_page.dart';
 import 'swipe_page.dart';
 import 'favorite_page.dart';
 
-class MyAppState extends ChangeNotifier{
-  var current   = WordPair.random();
-  var favorites = <WordPair>[];
-  bool isLoggedIn = false;
-
-  void getNext() {
-    current = WordPair.random();
-    notifyListeners();
-  }
-
-  void toggleFavorite() {
-    if (favorites.contains(current)) {
-      favorites.remove(current);
-    } else {
-      favorites.add(current);
-    }
-    notifyListeners();
-  }
-
-  void login() {
-    isLoggedIn = true;
-    notifyListeners();
-  }
-
-  void logout() {
-    isLoggedIn = false;
-    notifyListeners();
-  }
-}
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key}) : super(key: key);
 
