@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 // State
-import 'provider/app_state.dart';
+import 'provider/word_pair_provider.dart';
+import 'provider/auth_provider.dart';
 
 // Pages
 import 'pages/home.dart';
@@ -17,10 +18,13 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => MyAppState(),
-      child: Consumer<MyAppState>(
-        builder: (context, appState, _) {
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => WordPairProvider(),),
+        ChangeNotifierProvider(create: (context) => AuthProvider(),),
+      ],
+      child: Consumer<AuthProvider>(
+        builder: (context, auth, _) {
           return MaterialApp(
             debugShowCheckedModeBanner: false,
             title: 'Flutter Demo',
@@ -39,7 +43,7 @@ class MyApp extends StatelessWidget {
               ),
             ),
             themeMode: ThemeMode.system,
-            initialRoute: appState.isLoggedIn ? '/home' : '/login',
+            initialRoute: auth.isLoggedIn ? '/home' : '/login',
             routes: {
               '/home': (context) => const MyHomePage(),
               '/login': (context) => const LoginPage(),
