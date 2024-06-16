@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 // State
-import '../provider/app_state.dart';
+import '../provider/word_pair_provider.dart';
 
 // pages
 
@@ -11,13 +11,13 @@ class FavoritePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var appState = context.watch<MyAppState>();
+    var wordPair = context.watch<WordPairProvider>();
 
     return Scaffold(
       appBar: AppBar(
         title: const Text('Favorites Page'),
       ),
-      body: appState.favorites.isEmpty ?
+      body: wordPair.favorites.isEmpty ?
         const Center(
           child: Text('No favorites yet.'),
         )
@@ -25,11 +25,11 @@ class FavoritePage extends StatelessWidget {
           children: [
             Expanded(
               child: ListView.builder(
-                itemCount: appState.favorites.length,
+                itemCount: wordPair.favorites.length,
                 itemBuilder: (context, index) {
                   return ListTile(
                     leading: const Icon(Icons.favorite),
-                    title: Text(appState.favorites[index].asLowerCase),
+                    title: Text(wordPair.favorites[index].toString()),
                   );
                 }
               ),

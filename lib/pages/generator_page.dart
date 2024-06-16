@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:english_words/english_words.dart';
 
-// pages
-import '../provider/app_state.dart';
+// Models
+import '../models/word_pair_model.dart';
+
+// State
+import '../provider/word_pair_provider.dart';
+import '../provider/auth_provider.dart';
 
 class GeneratorPage extends StatelessWidget {
   final PageController pageController;
@@ -11,13 +14,13 @@ class GeneratorPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var appState = context.watch<MyAppState>();
-    var pair     = appState.current;
-    // final theme  = Theme.of(context);
+    var wordPair = context.watch<WordPairProvider>();
+    var pair     = wordPair.current;
+    var auth     = context.watch<AuthProvider>();
 
     // NOTE: IconData型の変数iconを宣言し、Iconsクラスのiconを代入
     IconData icon;
-    if (appState.favorites.contains(pair)) {
+    if (wordPair.favorites.contains(pair)) {
       icon = Icons.favorite;
     } else {
       icon = Icons.favorite_border;
@@ -29,7 +32,7 @@ class GeneratorPage extends StatelessWidget {
         leading: IconButton(
           icon: const Icon(Icons.logout),
           onPressed: () {
-            appState.logout();
+            auth.logout();
             Navigator.pushReplacementNamed(context, '/login');
           },
         ),
@@ -61,7 +64,7 @@ class GeneratorPage extends StatelessWidget {
                     // foregroundColor: theme.colorScheme.onBackground,
                   ),
                   onPressed: () {
-                    appState.toggleFavorite();
+                    wordPair.toggleFavorite();
                   },
                   icon: Icon(icon),
                   label: const Text('Like'),
@@ -73,7 +76,7 @@ class GeneratorPage extends StatelessWidget {
                     // foregroundColor: theme.colorScheme.onSecondary,
                   ),
                   onPressed: () {
-                    appState.getNext();
+                    wordPair.getNext();
                   },
                   child: const Text('Next')),
               ],
@@ -88,7 +91,7 @@ class GeneratorPage extends StatelessWidget {
 
 class BigCard extends StatelessWidget {
   const BigCard({ super.key, required this.pair, });
-  final WordPair pair;
+  final WordPairModel pair;
 
   @override
   Widget build(BuildContext context) {
@@ -103,7 +106,7 @@ class BigCard extends StatelessWidget {
         child: Semantics(
           label: "${pair.first} ${pair.second}",
           child: Text(
-            pair.asLowerCase,
+            "${pair.first}${pair.second}",
             style: theme.textTheme.displayMedium!
             // .copyWith(color: theme.colorScheme.onPrimary),
           ),

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-// pages
-import '../provider/app_state.dart';
+// State
+import '../provider/auth_provider.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -17,7 +17,7 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    final appState = Provider.of<MyAppState>(context);
+    var auth = context.watch<AuthProvider>();
 
     return Scaffold(
       appBar: AppBar(
@@ -46,7 +46,7 @@ class _LoginPageState extends State<LoginPage> {
               onPressed: () {
                 if (_usernameController.text == 'admin' &&
                     _passwordController.text == 'password') {
-                  appState.login();
+                  auth.login();
                   Navigator.pushReplacementNamed(context, '/home');
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(
