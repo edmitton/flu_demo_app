@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:english_words/english_words.dart';
 
 // pages
-import 'home.dart';
+import '../provider/app_state.dart';
 
 class GeneratorPage extends StatelessWidget {
   final PageController pageController;
@@ -26,6 +26,13 @@ class GeneratorPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Generator Page'),
+        leading: IconButton(
+          icon: const Icon(Icons.logout),
+          onPressed: () {
+            appState.logout();
+            Navigator.pushReplacementNamed(context, '/login');
+          },
+        ),
         actions: [
           IconButton(
             icon: const Icon(Icons.menu),
