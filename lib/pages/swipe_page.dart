@@ -14,7 +14,7 @@ class SwipePage extends StatelessWidget {
           onPressed: () {
             pageController.animateToPage(
               0,
-              duration: const Duration(milliseconds: 500),
+              duration: const Duration(milliseconds: 300),
               curve: Curves.easeInOut
             );
           },
