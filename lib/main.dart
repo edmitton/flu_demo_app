@@ -8,6 +8,7 @@ import 'provider/auth_provider.dart';
 // Pages
 import 'pages/home.dart';
 import 'pages/login_page.dart';
+import 'pages/login_method_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -43,10 +44,11 @@ class MyApp extends StatelessWidget {
               ),
             ),
             themeMode: ThemeMode.system,
-            initialRoute: auth.isLoggedIn ? '/home' : '/login',
+            initialRoute: auth.isLoggedIn ? '/home' : '/login_method',
             routes: {
               '/home': (context) => const MyHomePage(),
               '/login': (context) => const LoginPage(),
+              '/login_method': (context) => const LoginMethodPage(),
             },
           );
         },
