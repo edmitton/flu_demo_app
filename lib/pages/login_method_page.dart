@@ -12,11 +12,17 @@ class LoginMethodPage extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              Image.asset(
+                'images/vinumy_icon.webp',
+                height: 100,
+                width: 100,
+              ),
+              const SizedBox(height: 32),
               _buildLoginButton(
                 context,
                 text: 'Email',
                 onPressed: () {
-                  Navigator.pushNamed(context, '/login');
+                  Navigator.pushReplacementNamed(context, '/login');
                 },
               ),
               const SizedBox(height: 20),
