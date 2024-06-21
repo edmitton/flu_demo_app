@@ -6,6 +6,7 @@ import 'provider/word_pair_provider.dart';
 import 'provider/auth_provider.dart';
 
 // Pages
+import 'pages/welcome_page.dart';
 import 'pages/home.dart';
 import 'pages/login_page.dart';
 import 'pages/login_method_page.dart';
@@ -44,11 +45,23 @@ class MyApp extends StatelessWidget {
               ),
             ),
             themeMode: ThemeMode.system,
-            initialRoute: auth.isLoggedIn ? '/home' : '/login_method',
+            initialRoute: auth.isLoggedIn ? '/home' : '/welcome',
             routes: {
               '/home': (context) => const MyHomePage(),
               '/login': (context) => const LoginPage(),
               '/login_method': (context) => const LoginMethodPage(),
+              '/welcome': (context) => WelcomePage(
+                onSignUpPressed: () {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Sign up is not yet implemented.'),
+                    ),
+                  );
+                },
+                onLoginPressed: () {
+                  Navigator.pushNamed(context, '/login_method');
+                },
+              ),
             },
           );
         },
