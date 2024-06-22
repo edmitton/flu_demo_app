@@ -4,6 +4,9 @@ import 'package:provider/provider.dart';
 // State
 import '../provider/auth_provider.dart';
 
+// Pages
+import 'welcome_page.dart';
+
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
 
@@ -25,7 +28,23 @@ class _LoginPageState extends State<LoginPage> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios),
           onPressed: () {
-            Navigator.pushReplacementNamed(context, '/welcome');
+            Navigator.pushReplacement(
+              context,
+              PageRouteBuilder(
+                pageBuilder: (context, animation1, animation2) {
+                  return const WelcomePage(initialShowLoginSelection: false);
+                },
+                transitionsBuilder: (context, animation1, animation2, child) {
+                  return SlideTransition(
+                    position: Tween<Offset>(
+                      begin: const Offset(-1.0, 0.0),
+                      end: Offset.zero,
+                    ).animate(animation1),
+                    child: child,
+                  );
+                },
+              ),
+            );
           },
         ),
       ),
