@@ -46,7 +46,7 @@ class _WelcomePageState extends State<WelcomePage> {
                 crossFadeState: showLoginSelection
                     ? CrossFadeState.showFirst
                     : CrossFadeState.showSecond,
-                duration: const Duration(milliseconds: 500),
+                duration: const Duration(milliseconds: 300),
               ),
             ],
           ),
@@ -64,7 +64,7 @@ class _WelcomePageState extends State<WelcomePage> {
           onPressed: () {
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(
-                content: Text('Sign Up is not yet implemented.'),
+                content: Text('Sign up is not yet implemented.'),
               ),
             );
           },
