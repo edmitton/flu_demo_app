@@ -33,7 +33,7 @@ class GeneratorPage extends StatelessWidget {
           icon: const Icon(Icons.logout),
           onPressed: () {
             auth.logout();
-            Navigator.pushReplacementNamed(context, '/login_method');
+            Navigator.pushReplacementNamed(context, '/welcome');
           },
         ),
         actions: [
