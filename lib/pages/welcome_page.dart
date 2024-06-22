@@ -1,14 +1,22 @@
 import 'package:flutter/material.dart';
 
 class WelcomePage extends StatefulWidget {
-  const WelcomePage({Key? key,}) : super(key: key);
+  final bool initialShowLoginSelection;
+
+  const WelcomePage({Key? key, this.initialShowLoginSelection = true}) : super(key: key);
 
   @override
   State<WelcomePage> createState() => _WelcomePageState();
 }
 
 class _WelcomePageState extends State<WelcomePage> {
-  bool showLoginSelection = true;
+  late bool showLoginSelection = true;
+
+  @override
+  void initState() {
+    super.initState();
+    showLoginSelection = widget.initialShowLoginSelection;
+  }
 
   void toggleView() {
     setState(() {
