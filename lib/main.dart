@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 // State
 import 'provider/word_pair_provider.dart';
 import 'provider/auth_provider.dart';
+import 'provider/welcome_page_provider.dart';
 
 // Pages
 import 'pages/welcome_page.dart';
@@ -23,6 +24,7 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (context) => WordPairProvider(),),
         ChangeNotifierProvider(create: (context) => AuthProvider(),),
+        ChangeNotifierProvider(create: (context) => WelcomePageProvider(),),
       ],
       child: Consumer<AuthProvider>(
         builder: (context, auth, _) {
