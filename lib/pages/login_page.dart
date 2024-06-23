@@ -17,6 +17,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  bool _isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -68,22 +69,38 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
             const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                if (_usernameController.text == 'admin' &&
-                    _passwordController.text == 'password') {
-                  auth.login();
-                  Navigator.pushReplacementNamed(context, '/home');
-                } else {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('Incorrect username or password.'),
-                    ),
-                  );
-                }
-              },
-              child: const Text('Login'),
-            ),
+            _isLoading
+                ? const CircularProgressIndicator()
+                : ElevatedButton(
+                    onPressed: _isLoading
+                        ? null
+                        : () async{
+                            setState(() {
+                              _isLoading = true;
+                            });
+
+                            await Future.delayed(const Duration(seconds: 2));
+
+                            if (_usernameController.text == 'admin' &&
+                                _passwordController.text == 'password') {
+                              auth.login();
+                              if (!mounted) return;
+                              Navigator.pushReplacementNamed(context, '/home');
+                            } else {
+                              if (!mounted) return;
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text('Incorrect username or password.'),
+                                ),
+                              );
+                            }
+
+                            setState(() {
+                              _isLoading = false;
+                            });
+                          },
+                    child: const Text('Login'),
+                  ),
           ],
         ),
       ),
