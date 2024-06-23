@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+// States
+import '../provider/welcome_page_provider.dart';
 
 class WelcomePage extends StatefulWidget {
   final bool initialShowLoginSelection;
-
   const WelcomePage({Key? key, this.initialShowLoginSelection = true}) : super(key: key);
 
   @override
@@ -10,31 +13,30 @@ class WelcomePage extends StatefulWidget {
 }
 
 class _WelcomePageState extends State<WelcomePage> {
-  late bool showLoginSelection = true;
-
   @override
   void initState() {
     super.initState();
-    showLoginSelection = widget.initialShowLoginSelection;
-  }
-
-  void toggleView() {
-    setState(() {
-      showLoginSelection = !showLoginSelection;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Provider.of<WelcomePageProvider>(context, listen: false).setInitialView(widget.initialShowLoginSelection);
     });
   }
 
-
   @override
   Widget build(BuildContext context) {
+    final viewState = Provider.of<WelcomePageProvider>(context);
+
     return Scaffold(
      appBar: AppBar(
-        leading: showLoginSelection
-            ? null
-            : IconButton(
-                icon: const Icon(Icons.arrow_back_ios),
-                onPressed: toggleView,
-              ),
+        leading: Consumer<WelcomePageProvider>(
+          builder: (context, viewState, _) {
+            return viewState.showLoginSelection
+              ? const SizedBox.shrink()
+              : IconButton(
+                  icon: const Icon(Icons.arrow_back_ios),
+                  onPressed: viewState.toggleView,
+                );
+          },
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
@@ -49,12 +51,12 @@ class _WelcomePageState extends State<WelcomePage> {
               ),
               const SizedBox(height: 32),
               AnimatedCrossFade(
-                firstChild: _buildSelectionButtons(),
-                secondChild: _buildLoginMethodButtons(),
-                crossFadeState: showLoginSelection
+                firstChild: _buildSelectionButtons(context),
+                secondChild: _buildLoginMethodButtons(context),
+                crossFadeState: viewState.showLoginSelection
                     ? CrossFadeState.showFirst
                     : CrossFadeState.showSecond,
-                duration: const Duration(milliseconds: 300),
+                duration: const Duration(milliseconds: 200),
               ),
             ],
           ),
@@ -63,7 +65,9 @@ class _WelcomePageState extends State<WelcomePage> {
     );
   }
 
-  Widget _buildSelectionButtons() {
+  Widget _buildSelectionButtons(BuildContext context) {
+    final viewState = Provider.of<WelcomePageProvider>(context, listen: false);
+
     return Column(
       key: const ValueKey(1),
       children: [
@@ -80,13 +84,13 @@ class _WelcomePageState extends State<WelcomePage> {
         const SizedBox(height: 20),
         _buildButton(
           text: 'Login',
-          onPressed: toggleView,
+          onPressed: viewState.toggleView,
         ),
       ],
     );
   }
 
-  Widget _buildLoginMethodButtons() {
+  Widget _buildLoginMethodButtons(BuildContext context) {
     return Column(
       key: const ValueKey(2),
       children: [
