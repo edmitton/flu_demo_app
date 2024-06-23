@@ -86,6 +86,7 @@ class _WelcomePageState extends State<WelcomePage> {
           text: 'Login',
           onPressed: viewState.toggleView,
         ),
+        const SizedBox(height: 20),
       ],
     );
   }
@@ -134,6 +135,7 @@ class _WelcomePageState extends State<WelcomePage> {
             );
           },
         ),
+        const SizedBox(height: 20),
       ],
     );
   }
