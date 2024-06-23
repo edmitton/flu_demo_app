@@ -8,6 +8,9 @@ import '../models/word_pair_model.dart';
 import '../provider/word_pair_provider.dart';
 import '../provider/auth_provider.dart';
 
+// Pages
+import 'welcome_page.dart';
+
 class GeneratorPage extends StatelessWidget {
   final PageController pageController;
   const GeneratorPage({Key? key, required this.pageController}) : super(key: key);
@@ -33,7 +36,24 @@ class GeneratorPage extends StatelessWidget {
           icon: const Icon(Icons.logout),
           onPressed: () {
             auth.logout();
-            Navigator.pushReplacementNamed(context, '/welcome');
+            Navigator.pushReplacement(
+              context,
+              PageRouteBuilder(
+                pageBuilder: (context, animation1, animation2) {
+                  return const WelcomePage();
+                },
+                transitionsBuilder: (context, animation1, animation2, child) {
+                  return SlideTransition(
+                    position: Tween<Offset>(
+                      begin: const Offset(-1.0, 0.0),
+                      end: Offset.zero,
+                    ).animate(animation1),
+                    child: child,
+                  );
+                },
+                transitionDuration: const Duration(milliseconds: 200),
+              ),
+            );
           },
         ),
         actions: [
