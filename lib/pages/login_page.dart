@@ -18,11 +18,16 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool _isLoading = false;
+  late AuthProvider _authProvider;
+
+  @override
+  void initState() {
+    super.initState();
+    _authProvider = Provider.of<AuthProvider>(context, listen: false);
+  }
 
   @override
   Widget build(BuildContext context) {
-    var auth = context.watch<AuthProvider>();
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('Login'),
@@ -72,38 +77,43 @@ class _LoginPageState extends State<LoginPage> {
             _isLoading
                 ? const CircularProgressIndicator()
                 : ElevatedButton(
-                    onPressed: _isLoading
-                        ? null
-                        : () async{
-                            setState(() {
-                              _isLoading = true;
-                            });
-
-                            await Future.delayed(const Duration(seconds: 2));
-
-                            if (_usernameController.text == 'admin' &&
-                                _passwordController.text == 'password') {
-                              auth.login();
-                              if (!mounted) return;
-                              Navigator.pushReplacementNamed(context, '/home');
-                            } else {
-                              if (!mounted) return;
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text('Incorrect username or password.'),
-                                ),
-                              );
-                            }
-
-                            setState(() {
-                              _isLoading = false;
-                            });
-                          },
+                    onPressed: _isLoading ? null : _handleLogin,
                     child: const Text('Login'),
                   ),
           ],
         ),
       ),
     );
+  }
+
+  Future<void> _handleLogin() async {
+    setState(() {
+      _isLoading = true;
+    });
+
+    try {
+      await Future.delayed(const Duration(seconds: 1));
+
+      if (_usernameController.text == 'admin' &&
+          _passwordController.text == 'password') {
+        await _authProvider.login();
+
+        if (!mounted) return;
+        Navigator.pushReplacementNamed(context, '/home');
+      } else {
+        if (!mounted) return;
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Incorrect username or password.'),
+          ),
+        );
+      }
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    }
   }
 }
